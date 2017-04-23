@@ -7,6 +7,13 @@ var express = require('express'),
     _ = require('lodash');
 
 
+var favicon = require('serve-favicon');
+var morgan = require('morgan');
+var cookieParser = require('cookie-parser');
+var methodOverride = require('method-override');
+var logger = require('morgan');
+var cons = require('consolidate');
+
 sequelize = new Sequelize('sqlite://' + path.join(__dirname, 'invoices.sqlite'), {
   dialect: 'sqlite',
   storage: path.join(__dirname, 'invoices.sqlite')
@@ -127,12 +134,24 @@ sequelize.sync().then(function() {
 
 var app = module.exports = express();
 app.set('port', process.env.PORT || 8000);
+
+app.engine('html', cons.swig)
+app.set('views', path.join(__dirname, './public/views'));
+app.set('view engine', 'html');
+
+app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/scripts', express.static(path.join(__dirname, 'node_modules')));
+//app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(cors());
 
 // CUSTOMERS API
+
+app.route('/').get(function(req, res) {
+  res.render('home');
+});
 
 app.route('/api/customers')
   .get(function(req, res) {
@@ -279,11 +298,12 @@ app.route('/api/invoices/:invoice_id/items/:id')
     });
   });
 
-
 // Redirect all non api requests to the index
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+
 
 // Starting express server
 http.createServer(app).listen(app.get('port'), function () {

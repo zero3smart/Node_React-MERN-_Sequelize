@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title></title>
+
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-dropdown-checkbox.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Invoice App</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#">Products</a></li>
+            <li><a href="#">Customers</a></li>
+            <li><a href="#">Invoices</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="col-md-10">
+        <h2>Invoice Table</h2>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#invoiceModal" style="margin: 24.9px 0">New Invoice</button>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Customer</th>
+              <th>Discount</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>John</td>
+              <td>Doe</td>
+              <td>john@example.com</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Mary</td>
+              <td>Moe</td>
+              <td>mary@example.com</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>July</td>
+              <td>Dooley</td>
+              <td>july@example.com</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="invoiceModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Create Invoice</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="customer">Customers</label>
+                  <select class="form-control" id="customerList">
+                    <option>Kevin Jeen</option>
+                    <option>William Kelson</option>
+                    <option>Kelly John</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-9">
+                    <label for="customer" style="padding: 5px 0">Selected Products</label>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="btn-product-list dropdown-checkbox dropdown open"></div>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>Id</th>
+                          <th>Product Name</th>
+                          <th>Price</th>
+                          <th>Quantity</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <a href="#" id="edit-product"><span class="glyphicon glyphicon-pencil"></span></a>
+                          </td>
+                          <td>001</td>
+                          <td>Shoes Adidas</td>
+                          <td>$100</td>
+                          <td width="30%">
+                            <p class="product-price">5</p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+    <script type="text/javascript" src="/js/lib/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-dropdown-checkbox.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+  </body>
+</html>
