@@ -1,25 +1,30 @@
-var express = require('express'),
-    bodyParser = require('body-parser'),
-    http = require('http'),
-    path = require('path'),
-    cors = require('cors'),
-    Sequelize = require('sequelize'),
-    _ = require('lodash');
+'use strict';
 
+import express from 'express';
+import bodyParser from 'body-parser';
+import http from 'http';
+import path from 'path';
+import cors from 'cors';
+import Sequelize from 'sequelize';
+import _ from 'lodash';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { match, RouterContext } from 'react-router';
+import routes from './public/js/routes';
+import NotFoundPage from './public/js/components/NotFoundPage';
+import favicon from 'serve-favicon';
+import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
+import methodOverride from 'method-override';
+import logger from 'morgan';
+import cons from 'consolidate';
 
-var favicon = require('serve-favicon');
-var morgan = require('morgan');
-var cookieParser = require('cookie-parser');
-var methodOverride = require('method-override');
-var logger = require('morgan');
-var cons = require('consolidate');
-
-sequelize = new Sequelize('sqlite://' + path.join(__dirname, 'invoices.sqlite'), {
+let sequelize = new Sequelize('sqlite://' + path.join(__dirname, 'invoices.sqlite'), {
   dialect: 'sqlite',
   storage: path.join(__dirname, 'invoices.sqlite')
 });
 
-Customer = sequelize.define('customers', {
+let Customer = sequelize.define('customers', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -36,7 +41,7 @@ Customer = sequelize.define('customers', {
   }
 });
 
-Product = sequelize.define('products', {
+let Product = sequelize.define('products', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -50,7 +55,7 @@ Product = sequelize.define('products', {
   }
 });
 
-Invoice = sequelize.define('invoices', {
+let Invoice = sequelize.define('invoices', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -67,7 +72,7 @@ Invoice = sequelize.define('invoices', {
   }
 });
 
-InvoiceItem = sequelize.define('invoice_items', {
+let InvoiceItem = sequelize.define('invoice_items', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -133,6 +138,7 @@ sequelize.sync().then(function() {
 });
 
 var app = module.exports = express();
+require('dotenv').load();
 app.set('port', process.env.PORT || 8000);
 
 app.engine('html', cons.swig)
@@ -300,7 +306,30 @@ app.route('/api/invoices/:invoice_id/items/:id')
 
 // Redirect all non api requests to the index
 app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  match(
+    { routes, location: req.url },
+    (err, redirectLocation, renderProps) => {
+      if (err) {
+        return res.status(500).send(err.message);
+      }
+
+      if (redirectLocation) {
+        return res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+      }
+
+      let markup;
+      if (renderProps) {
+        markup = renderToString(<RouterContext {...renderProps}/>);
+      } else {
+        markup = renderToString(<NotFoundPage/>);
+        res.status(404);
+      }
+
+      // res.sendFile(path.join(__dirname, 'public', 'index.html'));
+      res.render('index');
+    }
+  )
+
 });
 
 

@@ -7,23 +7,15 @@ const path = require('path');
 
 module.exports = {
   devtool: debug ? 'inline-sourcemap' : null,
-  entry: path.join(__dirname, 'src', 'app-client.js'),
-  devServer: {
-    inline: true,
-    port: 3333,
-    contentBase: "src/static/",
-    historyApiFallback: {
-      index: '/index-static.html'
-    }
-  },
+  entry: path.join(__dirname, 'public/js/client.js'),
   output: {
-    path: path.join(__dirname, 'src', 'static', 'js'),
+    path: path.join(__dirname, 'public', 'js'),
     publicPath: "/js/",
     filename: 'bundle.js'
   },
   module: {
     loaders: [{
-      test: path.join(__dirname, 'src'),
+      test: path.join(__dirname, 'public'),
       loader: ['babel-loader'],
       query: {
         cacheDirectory: 'babel_cache',

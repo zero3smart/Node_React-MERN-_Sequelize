@@ -1,2 +1,5 @@
 node_modules
 invoices.sqlite
+/**/*.orig
+babel_cache
+public/js/bundle.js

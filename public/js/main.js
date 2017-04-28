@@ -39,12 +39,9 @@ $(function() {
 
   });
 
-  //alert($(".btn-product-list").dropdownCheckbox("checked"));
-
   $('.dropdown-checkbox-menu input[type="checkbox"]').on('change', function() {
     let selectedProducts = $(".btn-product-list").dropdownCheckbox("checked");
     console.log(selectedProducts);
   }).bind(this);
-
 
 });
