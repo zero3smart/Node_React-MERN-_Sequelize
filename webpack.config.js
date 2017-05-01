@@ -13,6 +13,9 @@ module.exports = {
     publicPath: "/js/",
     filename: 'bundle.js'
   },
+  resolve: {
+    extensions: ['', '.js', '.jsx', '.json']
+  },
   module: {
     loaders: [{
       test: path.join(__dirname, 'public'),
